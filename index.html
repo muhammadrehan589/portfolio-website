@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Portfolio</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="particles-js"></div>
+  <nav>
+    <ul>
+      <li><a href="#home" class="nav-link" aria-label="Home">Home</a></li>
+      <li><a href="#skills" class="nav-link" aria-label="Skills">Skills</a></li>
+      <li><a href="#projects" class="nav-link" aria-label="Projects">Projects</a></li>
+      <li><a href="#resume" class="nav-link" aria-label="Resume">Resume</a></li>
+      <li><a href="#contact" class="nav-link" aria-label="Contact">Contact</a></li>
+    </ul>
+  </nav>
+  <main>
+    <section id="home">
+      <img src="assets/profile.png" alt="Profile Photo" class="profile-photo" />
+      <h1>Muhammad Rehan</h1>
+      <h2>Software Engineer</h2>
+      <p>"Passionate about developing innovative web and mobile applications, with strong skills in game programming, a solid foundation in software development, and a growing interest in cybersecurity and UI/UX design".
+        </p>
+    </section>
+    <section id="skills">
+      <h2>Skills</h2>
+      <h3>Programming Languages</h3>
+      <ul>
+        <li>Java</li>
+        <li>Python</li>
+        <li>JavaScript</li>
+        <li>C#</li>
+        <li>C++</li>
+        <li>C</li>
+        <li>HTML</li>
+        <li>CSS</li>
+        <li>SQL</li>
+        <li>PHP</li>
+      </ul>
+      <h3>Tools</h3>
+      <ul>
+        <li>Android Studio</li>
+        <li>Unity</li>
+        <li>Figma</li>
+      </ul>
+      <h3>Technologies</h3>
+      <ul>
+        <li>Firebase</li>
+        <li>SQLite</li>
+        <li>REST APIs</li>
+      </ul>
+    </section>
+    <section id="projects">
+      <h2>Projects</h2>
+      <div class="project">
+        <h3>Project Name</h3>
+        <p>Description: What it does, tools used, your role.</p>
+        <img src="assets/project1.png" alt="Project Screenshot" />
+        <p><a href="#">GitHub Repo</a> | <a href="#">Live Demo</a></p>
+      </div>
+      <!-- Add more projects as needed -->
+    </section>
+    <section id="resume">
+      <h2>Resume</h2>
+      <a href="assets/resume.pdf" download>Download Resume (PDF)</a>
+      <iframe src="assets/resume.pdf"></iframe>
+    </section>
+    <section id="contact">
+      <h2>Contact</h2>
+      <div class="contact-icons">
+        <a href="mailto:your.muhammadrehann589@gmail.com" aria-label="Email"><span>&#9993;</span></a>
+        <a href="#" aria-label="LinkedIn"><span>&#128188;</span></a>
+        <a href="#" aria-label="GitHub"><span>&#128187;</span></a>
+      </div>
+      <p>Email: <a href="mailto:your.muhammadrehann589@gmail.com">your.muhammadrehann589@gmail.com</a></p>
+      <p>Location: <span id="location">Islamabad Pakistan</span></p>
+      <p>Phone: <span id="phone">Your Phone Number Here</span></p>
+      <p>LinkedIn: <a href="#">Muhammad Rehan</a></p>
+      <p>GitHub: <a href="#">Muhammad Rehan</a></p>
+      <form id="contact-form">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <textarea name="message" placeholder="Your Message" required></textarea>
+        <button type="submit">Send</button>
+      </form>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html> 
