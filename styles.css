@@ -360,3 +360,44 @@ nav, main, section, .profile-photo {
   0%   { transform: rotateY(0deg); }
   100% { transform: rotateY(360deg); }
 } 
+
+/* Media query for tablets and larger phones */
+@media (max-width: 768px) {
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+  }
+  nav ul li {
+    margin: 0.5rem 0;
+  }
+  main {
+    padding: 0 1rem; /* Adjust padding for smaller screens */
+  }
+  section {
+    padding: 1rem; /* Adjust section padding */
+  }
+  #home {
+    padding: 2rem 1rem; /* Adjust home section padding */
+    min-height: 50vh; /* Adjust minimum height */
+  }
+  .profile-photo {
+    width: 120px; /* Adjust profile photo size */
+    height: 120px;
+  }
+}
+
+/* Media query for smaller phones */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 2rem; /* Adjust heading size */
+  }
+  h2 {
+    font-size: 1.2rem; /* Adjust subheading size */
+  }
+  .project {
+    padding: 0.8rem; /* Adjust project padding */
+  }
+  #resume a, #resume button {
+    padding: 0.5rem 1rem; /* Adjust button size */
+  }
+} 
