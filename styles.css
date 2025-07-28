@@ -304,7 +304,7 @@ html {
   z-index: 0;
   pointer-events: none;
 }
-nav, main, section, .profile-photo {
+ main, section, .profile-photo {
   position: relative;
   z-index: 1;
 }
