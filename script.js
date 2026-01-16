@@ -140,4 +140,157 @@ document.addEventListener('DOMContentLoaded', function() {
     nameEl.insertBefore(document.createTextNode(''), cursor);
     type();
   }
+
+  hydrateGitHubProjects();
+
+  function hydrateGitHubProjects() {
+    const projectLinks = Array.from(document.querySelectorAll('#projects .project-link'));
+    if (!projectLinks.length) return;
+
+    projectLinks.forEach(link => {
+      if (link.dataset.placeholder === 'true') return;
+      const repoPath = extractRepoPath(link.getAttribute('href'));
+      if (!repoPath) return;
+
+      const card = createProjectCardSkeleton(repoPath);
+      link.replaceWith(card);
+
+      Promise.all([
+        fetchGitHubJson(`https://api.github.com/repos/${repoPath}`),
+        fetchGitHubJson(`https://api.github.com/repos/${repoPath}/languages`, true)
+      ])
+        .then(([repoData, languages]) => {
+          renderProjectCard(card, repoData, languages || {}, repoPath);
+        })
+        .catch(() => {
+          renderProjectError(card, repoPath);
+        });
+    });
+  }
+
+  function extractRepoPath(url) {
+    try {
+      const parsedUrl = new URL(url);
+      if (parsedUrl.hostname !== 'github.com') return null;
+      const parts = parsedUrl.pathname
+        .replace(/\.git$/i, '')
+        .split('/')
+        .filter(Boolean);
+      if (parts.length < 2) return null;
+      const [owner, repo] = parts;
+      if (!owner || !repo || owner === 'username' || repo === 'repo-name') return null;
+      return `${owner}/${repo}`;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  async function fetchGitHubJson(endpoint, allowEmpty = false) {
+    try {
+      const response = await fetch(endpoint, {
+        headers: {
+          Accept: 'application/vnd.github+json'
+        }
+      });
+      if (!response.ok) {
+        if (allowEmpty) return {};
+        throw new Error(`GitHub API error: ${response.status}`);
+      }
+      return response.json();
+    } catch (error) {
+      if (allowEmpty) return {};
+      throw error;
+    }
+  }
+
+  function createProjectCardSkeleton(repoPath) {
+    const card = document.createElement('article');
+    card.className = 'project-card project-card--loading';
+    const text = document.createElement('p');
+    text.textContent = `Loading ${repoPath}...`;
+    card.appendChild(text);
+    return card;
+  }
+
+  function renderProjectCard(card, repoData, languages, repoPath) {
+    card.classList.remove('project-card--loading');
+    card.innerHTML = '';
+
+    const header = document.createElement('div');
+    header.className = 'project-card-header';
+
+    const title = document.createElement('h3');
+    title.textContent = repoData.name || repoPath.split('/')[1];
+    header.appendChild(title);
+
+    const link = document.createElement('a');
+    link.href = repoData.html_url || `https://github.com/${repoPath}`;
+    link.target = '_blank';
+    link.rel = 'noopener';
+    link.textContent = 'Open on GitHub';
+    header.appendChild(link);
+    card.appendChild(header);
+
+    if (repoData.description) {
+      const desc = document.createElement('p');
+      desc.className = 'project-desc';
+      desc.textContent = repoData.description;
+      card.appendChild(desc);
+    }
+
+    const stats = document.createElement('div');
+    stats.className = 'project-stats';
+    stats.innerHTML = `
+      <span><strong>Stars:</strong> ${repoData.stargazers_count ?? 0}</span>
+      <span><strong>Forks:</strong> ${repoData.forks_count ?? 0}</span>
+      <span><strong>Updated:</strong> ${formatDate(repoData.updated_at)}</span>
+    `;
+    card.appendChild(stats);
+
+    const topics = Array.isArray(repoData.topics) ? repoData.topics.slice(0, 4) : [];
+    if (topics.length) {
+      const topicList = document.createElement('ul');
+      topicList.className = 'project-topics';
+      topics.forEach(topic => {
+        const item = document.createElement('li');
+        item.textContent = topic;
+        topicList.appendChild(item);
+      });
+      card.appendChild(topicList);
+    }
+
+    const languageKeys = languages ? Object.keys(languages) : [];
+    if (languageKeys.length) {
+      const langList = document.createElement('ul');
+      langList.className = 'project-languages';
+      languageKeys.slice(0, 4).forEach(lang => {
+        const li = document.createElement('li');
+        li.textContent = lang;
+        langList.appendChild(li);
+      });
+      card.appendChild(langList);
+    }
+  }
+
+  function renderProjectError(card, repoPath) {
+    card.classList.remove('project-card--loading');
+    card.innerHTML = '';
+    const msg = document.createElement('p');
+    msg.className = 'project-error';
+    msg.textContent = `Unable to load ${repoPath}.`;
+    const fallbackLink = document.createElement('a');
+    fallbackLink.href = `https://github.com/${repoPath}`;
+    fallbackLink.target = '_blank';
+    fallbackLink.rel = 'noopener';
+    fallbackLink.textContent = 'Open on GitHub';
+    card.appendChild(msg);
+    card.appendChild(fallbackLink);
+  }
+
+  function formatDate(value) {
+    if (!value) return '—';
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return value;
+    return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+  }
 }); 
