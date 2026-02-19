@@ -141,6 +141,44 @@ document.addEventListener('DOMContentLoaded', function() {
     type();
   }
 
+  // ============================================================
+  // Scroll-reveal via IntersectionObserver
+  // ============================================================
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  function watchReveal(el) { revealObs.observe(el); }
+
+  // Observe all elements already marked in HTML
+  document.querySelectorAll('[data-animate]').forEach(el => watchReveal(el));
+
+  // Skill chips — staggered fade-up
+  document.querySelectorAll('#skills ul li').forEach((li, i) => {
+    li.setAttribute('data-animate', '');
+    li.style.transitionDelay = `${i * 45}ms`;
+    watchReveal(li);
+  });
+
+  // Contact info paragraphs — staggered fade-left
+  document.querySelectorAll('#contact > p').forEach((p, i) => {
+    p.setAttribute('data-animate', 'fade-left');
+    p.style.transitionDelay = `${i * 75}ms`;
+    watchReveal(p);
+  });
+
+  // Contact form fields — staggered fade-up
+  document.querySelectorAll('#contact-form input, #contact-form textarea, #contact-form button').forEach((el, i) => {
+    el.setAttribute('data-animate', '');
+    el.style.transitionDelay = `${i * 90}ms`;
+    watchReveal(el);
+  });
+
   hydrateGitHubProjects();
 
   function hydrateGitHubProjects() {
@@ -215,6 +253,9 @@ document.addEventListener('DOMContentLoaded', function() {
   function renderProjectCard(card, repoData, languages, repoPath) {
     card.classList.remove('project-card--loading');
     card.innerHTML = '';
+    // Reveal animation for dynamically inserted cards
+    card.setAttribute('data-animate', '');
+    watchReveal(card);
 
     const header = document.createElement('div');
     header.className = 'project-card-header';
