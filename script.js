@@ -29,14 +29,51 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Contact form alert
+  // Contact form — Formspree submission
   const form = document.getElementById('contact-form');
   if (form) {
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async function(e) {
       e.preventDefault();
-      alert('Thank you for your message! (Form submission is not processed on GitHub Pages)');
-      form.reset();
+      const btn = form.querySelector('button[type="submit"]');
+      const originalText = btn.textContent;
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' }
+        });
+
+        if (response.ok) {
+          showFormMessage('Message sent! I\'ll get back to you soon.', 'success');
+          form.reset();
+        } else {
+          const data = await response.json();
+          const msg = data.errors ? data.errors.map(e => e.message).join(', ') : 'Something went wrong. Try again.';
+          showFormMessage(msg, 'error');
+        }
+      } catch (err) {
+        showFormMessage('Network error. Please try again.', 'error');
+      } finally {
+        btn.textContent = originalText;
+        btn.disabled = false;
+      }
     });
+  }
+
+  function showFormMessage(text, type) {
+    let msg = document.getElementById('form-message');
+    if (!msg) {
+      msg = document.createElement('p');
+      msg.id = 'form-message';
+      const form = document.getElementById('contact-form');
+      form.insertAdjacentElement('afterend', msg);
+    }
+    msg.textContent = text;
+    msg.style.cssText = `margin-top:0.8rem;font-weight:600;color:${type === 'success' ? '#00fff7' : '#ff8a80'};`;
+    setTimeout(() => { msg.textContent = ''; }, 6000);
   }
 
   // Initialize particles.js
