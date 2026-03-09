@@ -3,76 +3,120 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Portfolio</title>
+  <title>Muhammad Rehan — Software Engineer</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
   <div id="particles-js"></div>
-  <nav data-animate="fade-down">
-    <ul>
-      <li><a href="#home" class="nav-link" aria-label="Home">Home</a></li>
-      <li><a href="#skills" class="nav-link" aria-label="Skills">Skills</a></li>
-      <li><a href="#projects" class="nav-link" aria-label="Projects">Projects</a></li>
-      <li><a href="#resume" class="nav-link" aria-label="Resume">Resume</a></li>
-      <li><a href="#contact" class="nav-link" aria-label="Contact">Contact</a></li>
-    </ul>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="#home" class="nav-logo nav-link">Muhammad <span>Rehan</span></a>
+      <ul class="nav-links">
+        <li><a href="#home"     class="nav-link">Home</a></li>
+        <li><a href="#about"    class="nav-link">About</a></li>
+        <li><a href="#skills"   class="nav-link">Skills</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#resume"   class="nav-link">Resume</a></li>
+        <li><a href="#contact"  class="nav-link">Contact</a></li>
+      </ul>
+      <a href="#contact" class="btn-primary nav-hire nav-link">Hire Me</a>
+      <button class="nav-toggle" aria-label="Toggle menu" id="nav-toggle">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
   </nav>
+
   <main>
+
+    <!-- HERO -->
     <section id="home">
-      <div class="hero-text">
-        <p class="hero-greeting" data-animate>Hello! 👋</p>
-        <h1 data-animate style="transition-delay:0.15s">Muhammad Rehan</h1>
-        <h2 data-animate style="transition-delay:0.3s">Software Engineer</h2>
-        <p data-animate style="transition-delay:0.45s">Passionate about developing innovative web and mobile applications, with strong skills in game programming, a solid foundation in software development, and a growing interest in cybersecurity and UI/UX design.</p>
-        <div class="hero-btns" data-animate style="transition-delay:0.6s">
-          <a href="#projects" class="btn-primary nav-link">View Projects</a>
-          <a href="#contact" class="btn-secondary nav-link">Hire Me</a>
+      <div class="hero-text" data-animate>
+        <p class="hero-greeting">HELLO, MY NAME IS</p>
+        <h1><span class="hero-last">Muhammad Rehan</span></h1>
+        <h2>Software Engineer</h2>
+        <p class="hero-bio">From Islamabad, Pakistan. Passionate about developing innovative web and mobile applications, with strong skills in game programming, a solid foundation in software development, and a growing interest in cybersecurity and UI/UX design.</p>
+        <div class="hero-btns">
+          <a href="assets/resume.pdf" download class="btn-primary"><i class="fa-solid fa-download"></i> Download Resume</a>
+          <a href="#contact" class="btn-outline nav-link">Contact Me</a>
+        </div>
+        <div class="hero-socials">
+          <a href="https://github.com/muhammadrehan589" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+          <a href="https://www.linkedin.com/in/muhammad-rehan-544769278/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="mailto:muhammadrehann589@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
         </div>
       </div>
       <div class="hero-photo-wrapper" data-animate="zoom">
         <div class="hero-photo-glow"></div>
-        <img src="assets/profile.png" alt="Profile Photo" class="profile-photo" />
+        <img src="assets/profile.png" alt="Muhammad Rehan" class="profile-photo" />
       </div>
     </section>
-    <section id="skills">
-      <h2 data-animate>Skills</h2>
-      <h3 data-animate>Programming Languages</h3>
-      <ul>
-        <li>Java</li>
-        <li>Python</li>
-        <li>JavaScript</li>
-        <li>C#</li>
-        <li>C++</li>
-        <li>C</li>
-        <li>HTML</li>
-        <li>CSS</li>
-        <li>SQL</li>
-        <li>PHP</li>
-      </ul>
-      <h3 data-animate>Tools</h3>
-      <ul>
-        <li>Android Studio</li>
-        <li>Unity</li>
-        <li>Figma</li>
-        <li>GitHub</li>
-        <li>Visual Studio Code</li>
-      </ul>
-      <h3 data-animate>Technologies</h3>
-      <ul>
-        <li>Firebase</li>
-        <li>SQLite</li>
-        <li>REST APIs</li>
-        <li>MongoDB</li>
-        <li>Express.js</li>
-        <li>React</li>
-        <li>Node.js</li>
-      </ul>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="about-img" data-animate="fade-right">
+        <div id="cube-3d-container">
+          <div class="cube-3d" id="cube-3d">
+            <div class="face face-front">Code</div>
+            <div class="face face-back">Build</div>
+            <div class="face face-right">Create</div>
+            <div class="face face-left">Design</div>
+            <div class="face face-top">Think</div>
+            <div class="face face-bottom">Update</div>
+          </div>
+        </div>
+      </div>
+      <div class="about-text" data-animate="fade-left">
+        <p class="section-tag">About Me</p>
+        <h2><span class="accent">Passionate,</span> innovative<br>Software <span class="accent">Engineer</span></h2>
+        <p>A Computer Science graduate with hands-on experience building web, mobile and game applications. Always striving to write clean, efficient code and deliver polished user experiences.</p>
+        <ul class="check-list">
+          <li><i class="fa-solid fa-circle-check"></i> Full-stack web development (MERN Stack)</li>
+          <li><i class="fa-solid fa-circle-check"></i> Android &amp; mobile application development</li>
+          <li><i class="fa-solid fa-circle-check"></i> Game development with Unity &amp; C#</li>
+          <li><i class="fa-solid fa-circle-check"></i> UI/UX design with Figma</li>
+          <li><i class="fa-solid fa-circle-check"></i> RESTful API design &amp; integration</li>
+        </ul>
+      </div>
     </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <div class="section-header" data-animate>
+        <p class="section-tag">My Talent</p>
+        <h2>Professional <span class="accent">Skills</span></h2>
+      </div>
+      <div class="skills-grid" data-animate>
+        <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript"><span>JavaScript</span></div>
+        <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python"><span>Python</span></div>
+        <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java"><span>Java</span></div>
+        <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="C#"><span>C#</span></div>
+        <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="C++"><span>C++</span></div>
+        <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP"><span>PHP</span></div>
+        <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React"><span>React</span></div>
+        <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js"><span>Node.js</span></div>
+        <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" alt="Express"><span>Express.js</span></div>
+        <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB"><span>MongoDB</span></div>
+        <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="SQL"><span>SQL</span></div>
+        <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg" alt="Firebase"><span>Firebase</span></div>
+        <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML"><span>HTML</span></div>
+        <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS"><span>CSS</span></div>
+        <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="Figma"><span>Figma</span></div>
+        <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/unity/unity-original.svg" alt="Unity"><span>Unity</span></div>
+        <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git"><span>Git</span></div>
+        <div class="skill-card"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/androidstudio/androidstudio-original.svg" alt="Android Studio"><span>Android Studio</span></div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
     <section id="projects">
-      <h2 data-animate>Projects</h2>
-      <p class="projects-scroll-hint" data-animate style="transition-delay:0.15s">Scroll to explore ↓</p>
-      <div class="projects-stack" id="projects-grid" aria-live="polite">
+      <div class="section-header" data-animate>
+        <p class="section-tag">Latest Works</p>
+        <h2>Explore My Popular <span class="accent">Projects</span></h2>
+      </div>
+      <div class="projects-list" id="projects-grid" aria-live="polite">
         <a class="project-link" href="https://github.com/muhammadrehan589/FaceDectectionApp">Face Detection Attendance App</a>
         <a class="project-link" href="https://github.com/muhammadrehan589/dish-recommender">Dish Recommender System</a>
         <a class="project-link" href="https://github.com/muhammadrehan589/Monster-Chase">Monster Chaser Game</a>
@@ -80,48 +124,86 @@
         <a class="project-link" href="https://github.com/muhammadrehan589/SRE-Homes">SRE Homes</a>
       </div>
     </section>
+
+    <!-- RESUME -->
     <section id="resume">
-      <h2 data-animate>Resume</h2>
-      <a href="assets/resume.pdf" download data-animate style="transition-delay:0.15s">Download Resume (PDF)</a>
-      <iframe src="assets/resume.pdf"></iframe>
-    </section>
-    <section id="contact">
-      <h2 data-animate>Contact</h2>
-      <ul class="contact-list" data-animate style="transition-delay:0.1s">
-        <li>
-          <i class="fa-solid fa-envelope"></i>
-          <a href="mailto:muhammadrehann589@gmail.com">muhammadrehann589@gmail.com</a>
-        </li>
-        <li>
-          <i class="fa-solid fa-location-dot"></i>
-          <span>Islamabad, Pakistan</span>
-        </li>
-        <li>
-          <i class="fa-solid fa-phone"></i>
-          <span>+92-333-1277700</span>
-        </li>
-      </ul>
-      <div class="social-links" data-animate style="transition-delay:0.25s">
-        <a href="https://github.com/muhammadrehan589" target="_blank" rel="noopener" aria-label="GitHub" class="social-btn github-btn">
-          <i class="fa-brands fa-github"></i>
-          <span>GitHub</span>
-        </a>
-        <a href="https://www.linkedin.com/in/muhammad-rehan-544769278/" target="_blank" rel="noopener" aria-label="LinkedIn" class="social-btn linkedin-btn">
-          <i class="fa-brands fa-linkedin"></i>
-          <span>LinkedIn</span>
-        </a>
+      <div class="section-header" data-animate>
+        <p class="section-tag">My Resume</p>
+        <h2>Education &amp; <span class="accent">Experience</span></h2>
       </div>
-      <form id="contact-form" action="https://formspree.io/f/xgolpknj" method="POST">
-        <input type="text" name="name" placeholder="Your Name" required>
-        <input type="email" name="email" placeholder="Your Email" required>
-        <textarea name="message" placeholder="Your Message" required></textarea>
-        <input type="hidden" name="_subject" value="New message from portfolio">
-        <input type="hidden" name="_next" value="">
-        <button type="submit">Send</button>
-      </form>
+      <div class="resume-body" data-animate>
+        <a href="assets/resume.pdf" download class="btn-primary"><i class="fa-solid fa-download"></i> Download Resume</a>
+        <iframe src="assets/resume.pdf" title="Resume"></iframe>
+      </div>
     </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="contact-left" data-animate="fade-right">
+        <p class="section-tag">Get In Touch</p>
+        <h2>Let's Talk For your<br><span class="accent">Next Projects</span></h2>
+        <p class="contact-sub">Discuss a project or just want to say hi? Connect with me via email or through a phone call.</p>
+        <ul class="check-list">
+          <li><i class="fa-solid fa-circle-check"></i> Full-stack Web Development</li>
+          <li><i class="fa-solid fa-circle-check"></i> Mobile App Development</li>
+          <li><i class="fa-solid fa-circle-check"></i> Game Development</li>
+          <li><i class="fa-solid fa-circle-check"></i> UI/UX Design</li>
+          <li><i class="fa-solid fa-circle-check"></i> RESTful API Integration</li>
+        </ul>
+        <div class="contact-socials">
+          <a href="https://github.com/muhammadrehan589" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+          <a href="https://www.linkedin.com/in/muhammad-rehan-544769278/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="mailto:muhammadrehann589@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+        </div>
+      </div>
+      <div class="contact-right" data-animate="fade-left">
+        <form id="contact-form" action="https://formspree.io/f/xgolpknj" method="POST">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Full Name</label>
+              <input type="text" name="name" placeholder="Muhammad Rehan" required>
+            </div>
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" name="email" placeholder="your@email.com" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input type="tel" name="phone" placeholder="+92-333-1277700">
+            </div>
+            <div class="form-group">
+              <label>Subject</label>
+              <input type="text" name="subject" placeholder="Project Inquiry">
+            </div>
+          </div>
+          <div class="form-group full">
+            <label>Message</label>
+            <textarea name="message" placeholder="Write your message..." required></textarea>
+          </div>
+          <input type="hidden" name="_subject" value="New message from portfolio">
+          <button type="submit" class="btn-primary"><i class="fa-solid fa-paper-plane"></i> Send Message</button>
+        </form>
+      </div>
+    </section>
+
   </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Copyright &copy;2025, <span class="accent footer-name">Muhammad Rehan</span>. All Rights Reserved.</p>
+    <ul class="footer-links">
+      <li><a href="#about"    class="nav-link">About</a></li>
+      <li><a href="#skills"   class="nav-link">Skills</a></li>
+      <li><a href="#resume"   class="nav-link">Resume</a></li>
+      <li><a href="#projects" class="nav-link">Projects</a></li>
+      <li><a href="#contact"  class="nav-link">Contact</a></li>
+    </ul>
+    <a href="#home" class="back-to-top nav-link" aria-label="Back to top"><i class="fa-solid fa-chevron-up"></i></a>
+  </footer>
+
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script src="script.js"></script>
 </body>
-</html> 
+</html>

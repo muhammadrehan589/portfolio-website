@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+﻿document.addEventListener('DOMContentLoaded', function() {
   // Smooth scroll for nav links
   document.querySelectorAll('a.nav-link').forEach(link => {
     link.addEventListener('click', function(e) {
@@ -122,60 +122,53 @@ document.addEventListener('DOMContentLoaded', function() {
   const geoBg = document.getElementById('geo-bg');
   if (geoBg) geoBg.remove();
 
-  // Add 3D rotating cube below about me
-  const aboutMe = document.querySelector('#home p');
-  if (aboutMe && !document.getElementById('cube-3d')) {
-    const cubeContainer = document.createElement('div');
-    cubeContainer.id = 'cube-3d-container';
-    cubeContainer.innerHTML = `
-      <div class="cube-3d" id="cube-3d">
-        <div class="face face-front">Code</div>
-        <div class="face face-back">Build</div>
-        <div class="face face-right">Create</div>
-        <div class="face face-left">Design</div>
-      </div>
-    `;
-    aboutMe.insertAdjacentElement('afterend', cubeContainer);
-  }
-
-  // Typewriter animation for name
-  const nameEl = document.querySelector('#home h1');
+  // Typewriter animation for hero name
+  const nameEl = document.querySelector('#home h1 .hero-last');
   if (nameEl) {
-    const text = 'Muhammad Rehan';
+    const text = nameEl.textContent.trim();
     let i = 0;
     let isDeleting = false;
     let speed = 120;
-    // Create cursor span
-    let cursor = document.createElement('span');
+    const cursor = document.createElement('span');
     cursor.className = 'typewriter-cursor';
     cursor.textContent = '|';
     nameEl.textContent = '';
+    nameEl.appendChild(document.createTextNode(''));
     nameEl.appendChild(cursor);
     function type() {
       if (!isDeleting) {
-        nameEl.childNodes[0].textContent = text.substring(0, i + 1);
+        nameEl.firstChild.textContent = text.substring(0, i + 1);
         i++;
-        if (i === text.length) {
-          isDeleting = true;
-          speed = 1000; // pause before deleting
-        } else {
-          speed = 120;
-        }
+        speed = (i === text.length) ? 1200 : 120;
+        if (i === text.length) isDeleting = true;
       } else {
-        nameEl.childNodes[0].textContent = text.substring(0, i - 1);
+        nameEl.firstChild.textContent = text.substring(0, i - 1);
         i--;
-        if (i === 0) {
-          isDeleting = false;
-          speed = 500; // pause before typing again
-        } else {
-          speed = 60;
-        }
+        speed = (i === 0) ? 500 : 60;
+        if (i === 0) isDeleting = false;
       }
       setTimeout(type, speed);
     }
-    // Insert a text node before the cursor
-    nameEl.insertBefore(document.createTextNode(''), cursor);
     type();
+  }
+
+  // Mobile nav toggle
+  const navToggle = document.getElementById('nav-toggle');
+  const navLinksList = document.querySelector('.nav-links');
+  if (navToggle && navLinksList) {
+    navToggle.addEventListener('click', () => {
+      const open = navLinksList.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', String(open));
+      navToggle.querySelector('i').className = open ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+    });
+    // Close menu when a nav link is clicked on mobile
+    navLinksList.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        navLinksList.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+        navToggle.querySelector('i').className = 'fa-solid fa-bars';
+      });
+    });
   }
 
   // ============================================================
@@ -195,7 +188,14 @@ document.addEventListener('DOMContentLoaded', function() {
   // Observe all elements already marked in HTML
   document.querySelectorAll('[data-animate]').forEach(el => watchReveal(el));
 
-  // Skill chips — staggered fade-up
+  // Skill cards — staggered fade-up
+  document.querySelectorAll('#skills .skill-card').forEach((card, i) => {
+    card.setAttribute('data-animate', '');
+    card.style.transitionDelay = `${i * 45}ms`;
+    watchReveal(card);
+  });
+
+  // Skill chips — staggered fade-up (legacy selector, harmless if empty)
   document.querySelectorAll('#skills ul li').forEach((li, i) => {
     li.setAttribute('data-animate', '');
     li.style.transitionDelay = `${i * 45}ms`;
@@ -292,34 +292,37 @@ document.addEventListener('DOMContentLoaded', function() {
     card.classList.remove('project-card--loading');
     card.innerHTML = '';
 
-    const header = document.createElement('div');
-    header.className = 'project-card-header';
+    // Info side
+    const info = document.createElement('div');
+    info.className = 'project-card-info';
+
+    const tag = document.createElement('p');
+    tag.className = 'project-card-tag';
+    tag.textContent = (Array.isArray(repoData.topics) && repoData.topics[0]) || 'Project';
+    info.appendChild(tag);
 
     const title = document.createElement('h3');
     title.textContent = repoData.name || repoPath.split('/')[1];
-    header.appendChild(title);
-
-    const link = document.createElement('a');
-    link.href = repoData.html_url || `https://github.com/${repoPath}`;
-    link.target = '_blank';
-    link.rel = 'noopener';
-    link.textContent = 'Open on GitHub';
-    header.appendChild(link);
-    card.appendChild(header);
+    info.appendChild(title);
 
     if (repoData.description) {
       const desc = document.createElement('p');
       desc.className = 'project-desc';
       desc.textContent = repoData.description;
-      card.appendChild(desc);
+      info.appendChild(desc);
     }
 
-    const stats = document.createElement('div');
-    stats.className = 'project-stats';
-    stats.innerHTML = `
-      <span><strong>Updated:</strong> ${formatDate(repoData.updated_at)}</span>
-    `;
-    card.appendChild(stats);
+    const languageKeys = languages ? Object.keys(languages) : [];
+    if (languageKeys.length) {
+      const langList = document.createElement('ul');
+      langList.className = 'project-languages';
+      languageKeys.slice(0, 5).forEach(lang => {
+        const li = document.createElement('li');
+        li.textContent = lang;
+        langList.appendChild(li);
+      });
+      info.appendChild(langList);
+    }
 
     const topics = Array.isArray(repoData.topics) ? repoData.topics.slice(0, 4) : [];
     if (topics.length) {
@@ -330,45 +333,68 @@ document.addEventListener('DOMContentLoaded', function() {
         item.textContent = topic;
         topicList.appendChild(item);
       });
-      card.appendChild(topicList);
+      info.appendChild(topicList);
     }
 
-    const languageKeys = languages ? Object.keys(languages) : [];
-    if (languageKeys.length) {
-      const langList = document.createElement('ul');
-      langList.className = 'project-languages';
-      languageKeys.slice(0, 4).forEach(lang => {
-        const li = document.createElement('li');
-        li.textContent = lang;
-        langList.appendChild(li);
-      });
-      card.appendChild(langList);
-    }
+    const stats = document.createElement('p');
+    stats.className = 'project-stats';
+    stats.innerHTML = `Updated: ${formatDate(repoData.updated_at)}`;
+    info.appendChild(stats);
+
+    const ghLink = document.createElement('a');
+    ghLink.className = 'project-card-link';
+    ghLink.href = repoData.html_url || `https://github.com/${repoPath}`;
+    ghLink.target = '_blank';
+    ghLink.rel = 'noopener';
+    ghLink.setAttribute('aria-label', 'View on GitHub');
+    ghLink.innerHTML = '<i class="fa-brands fa-github"></i>';
+    info.appendChild(ghLink);
+
+    card.appendChild(info);
+
+    // Visual side
+    const visual = document.createElement('div');
+    visual.className = 'project-card-visual';
+    visual.innerHTML = '<i class="fa-solid fa-code proj-icon"></i>';
+    card.appendChild(visual);
   }
 
   function renderProjectError(card, repoPath, displayName) {
     card.classList.remove('project-card--loading');
     card.innerHTML = '';
 
-    const header = document.createElement('div');
-    header.className = 'project-card-header';
+    const info = document.createElement('div');
+    info.className = 'project-card-info';
+
+    const tag = document.createElement('p');
+    tag.className = 'project-card-tag';
+    tag.textContent = 'Project';
+    info.appendChild(tag);
 
     const title = document.createElement('h3');
     title.textContent = displayName || repoPath.split('/')[1];
-    header.appendChild(title);
-
-    const link = document.createElement('a');
-    link.href = `https://github.com/${repoPath}`;
-    link.target = '_blank';
-    link.rel = 'noopener';
-    link.textContent = 'View on GitHub';
-    header.appendChild(link);
-    card.appendChild(header);
+    info.appendChild(title);
 
     const desc = document.createElement('p');
     desc.className = 'project-desc';
-    desc.textContent = 'Click “View on GitHub” to explore this project.';
-    card.appendChild(desc);
+    desc.textContent = 'Explore this project on GitHub.';
+    info.appendChild(desc);
+
+    const ghLink = document.createElement('a');
+    ghLink.className = 'project-card-link';
+    ghLink.href = `https://github.com/${repoPath}`;
+    ghLink.target = '_blank';
+    ghLink.rel = 'noopener';
+    ghLink.setAttribute('aria-label', 'View on GitHub');
+    ghLink.innerHTML = '<i class="fa-brands fa-github"></i>';
+    info.appendChild(ghLink);
+
+    card.appendChild(info);
+
+    const visual = document.createElement('div');
+    visual.className = 'project-card-visual';
+    visual.innerHTML = '<i class="fa-solid fa-code proj-icon"></i>';
+    card.appendChild(visual);
   }
 
   function formatDate(value) {
