@@ -172,46 +172,48 @@ section {
   margin: 1rem 0;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
-.projects-hint,
-.projects-note {
-  margin: 0.4rem 0 0;
-  color: #b5b5b5;
+.projects-scroll-hint {
+  color: #8aa0a8;
   font-size: 0.95rem;
+  margin: 0 0 2rem;
+  letter-spacing: 0.5px;
 }
-.projects-note {
-  font-style: italic;
-}
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1.5rem;
-}
-.projects-grid .project-link {
-  display: inline-block;
-  padding: 1rem;
-  border: 1px dashed rgba(0,188,212,0.4);
-  border-radius: 10px;
-  color: #00bcd4;
-  text-decoration: none;
-  word-break: break-word;
-  text-align: center;
-}
-.project-card {
-  background: #181a1b;
-  border-radius: 14px;
-  border: 1px solid rgba(0,188,212,0.25);
-  padding: 1.5rem;
-  box-shadow: 0 2px 14px rgba(0,0,0,0.2);
+.projects-stack {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  padding-bottom: 4rem;
+}
+.projects-stack .project-link {
+  display: none;
+}
+/* ---- Sticky stack card ---- */
+.project-card {
+  position: sticky;
+  background: linear-gradient(160deg, #1a1d1f 0%, #1f2428 100%);
+  border-radius: 20px;
+  border: 1.5px solid rgba(0, 188, 212, 0.28);
+  padding: 2rem 2.5rem;
+  margin-bottom: 50vh;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: 0 8px 36px rgba(0, 0, 0, 0.38);
+  transition: box-shadow 0.3s ease;
+}
+.project-card:last-child {
+  margin-bottom: 4rem;
 }
 .project-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 28px rgba(0,188,212,0.18);
+  box-shadow: 0 12px 48px rgba(0, 188, 212, 0.22);
 }
+/* Progressive sticky offsets — each card stacks 24 px lower than the previous */
+.project-card:nth-child(1) { top:  80px; z-index: 1; }
+.project-card:nth-child(2) { top: 104px; z-index: 2; }
+.project-card:nth-child(3) { top: 128px; z-index: 3; }
+.project-card:nth-child(4) { top: 152px; z-index: 4; }
+.project-card:nth-child(5) { top: 176px; z-index: 5; }
 .project-card-header {
   display: flex;
   align-items: baseline;

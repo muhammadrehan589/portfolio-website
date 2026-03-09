@@ -290,9 +290,6 @@ document.addEventListener('DOMContentLoaded', function() {
   function renderProjectCard(card, repoData, languages, repoPath) {
     card.classList.remove('project-card--loading');
     card.innerHTML = '';
-    // Reveal animation for dynamically inserted cards
-    card.setAttribute('data-animate', '');
-    watchReveal(card);
 
     const header = document.createElement('div');
     header.className = 'project-card-header';
@@ -319,8 +316,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const stats = document.createElement('div');
     stats.className = 'project-stats';
     stats.innerHTML = `
-      <span><strong>Stars:</strong> ${repoData.stargazers_count ?? 0}</span>
-      <span><strong>Forks:</strong> ${repoData.forks_count ?? 0}</span>
       <span><strong>Updated:</strong> ${formatDate(repoData.updated_at)}</span>
     `;
     card.appendChild(stats);
