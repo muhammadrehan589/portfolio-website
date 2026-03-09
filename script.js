@@ -228,8 +228,8 @@
       const displayName = link.textContent.trim();
       if (!repoPath) return;
 
-      const card = createProjectCardSkeleton(repoPath);
       const imgSrc = link.dataset.image || null;
+      const card = createProjectCardSkeleton(repoPath, imgSrc);
       link.replaceWith(card);
 
       Promise.all([
@@ -240,7 +240,7 @@
           renderProjectCard(card, repoData, languages || {}, repoPath, imgSrc);
         })
         .catch(() => {
-          renderProjectError(card, repoPath, displayName);
+          renderProjectError(card, repoPath, displayName, imgSrc);
         });
     });
   }
@@ -280,22 +280,46 @@
     }
   }
 
-  function createProjectCardSkeleton(repoPath) {
+  function createProjectCardSkeleton(repoPath, imgSrc) {
     const card = document.createElement('article');
     card.className = 'project-card project-card--loading';
-    const text = document.createElement('p');
-    text.textContent = `Loading ${repoPath}...`;
-    card.appendChild(text);
+
+    // Info placeholder
+    const info = document.createElement('div');
+    info.className = 'project-card-info';
+    const loadingText = document.createElement('p');
+    loadingText.className = 'project-stats';
+    loadingText.textContent = `Loading ${repoPath.split('/')[1]}...`;
+    info.appendChild(loadingText);
+    card.appendChild(info);
+
+    // Visual panel — show image right away, no API needed
+    const visual = document.createElement('div');
+    visual.className = 'project-card-visual';
+    if (imgSrc) {
+      const img = document.createElement('img');
+      img.src = imgSrc;
+      img.alt = repoPath.split('/')[1] + ' screenshot';
+      img.onerror = function() {
+        this.remove();
+        visual.innerHTML = '<i class="fa-solid fa-code proj-icon"></i>';
+      };
+      visual.appendChild(img);
+    } else {
+      visual.innerHTML = '<i class="fa-solid fa-code proj-icon"></i>';
+    }
+    card.appendChild(visual);
+
     return card;
   }
 
   function renderProjectCard(card, repoData, languages, repoPath, imgSrc) {
     card.classList.remove('project-card--loading');
-    card.innerHTML = '';
 
-    // Info side
-    const info = document.createElement('div');
+    // Update info panel (first child) — keep existing visual panel
+    const info = card.querySelector('.project-card-info') || document.createElement('div');
     info.className = 'project-card-info';
+    info.innerHTML = '';
 
     const tag = document.createElement('p');
     tag.className = 'project-card-tag';
@@ -351,32 +375,30 @@
     ghLink.innerHTML = '<i class="fa-brands fa-github"></i>';
     info.appendChild(ghLink);
 
-    card.appendChild(info);
+    // If info was newly created (shouldn't happen), prepend it
+    if (!card.querySelector('.project-card-info')) {
+      card.insertBefore(info, card.firstChild);
+    }
 
-    // Visual side
-    const visual = document.createElement('div');
-    visual.className = 'project-card-visual';
-    if (imgSrc) {
-      const img = document.createElement('img');
-      img.src = imgSrc;
-      img.alt = (repoData.name || repoPath.split('/')[1]) + ' screenshot';
-      img.onerror = function() {
-        this.remove();
-        visual.innerHTML = '<i class="fa-solid fa-code proj-icon"></i>';
-      };
-      visual.appendChild(img);
-    } else {
+    // Rebuild visual only if no image was loaded (imgSrc absent)
+    if (!imgSrc) {
+      let visual = card.querySelector('.project-card-visual');
+      if (!visual) {
+        visual = document.createElement('div');
+        visual.className = 'project-card-visual';
+        card.appendChild(visual);
+      }
       visual.innerHTML = '<i class="fa-solid fa-code proj-icon"></i>';
     }
-    card.appendChild(visual);
   }
 
-  function renderProjectError(card, repoPath, displayName) {
+  function renderProjectError(card, repoPath, displayName, imgSrc) {
     card.classList.remove('project-card--loading');
-    card.innerHTML = '';
 
-    const info = document.createElement('div');
+    // Update info panel — keep existing visual (already has image from skeleton)
+    const info = card.querySelector('.project-card-info') || document.createElement('div');
     info.className = 'project-card-info';
+    info.innerHTML = '';
 
     const tag = document.createElement('p');
     tag.className = 'project-card-tag';
@@ -401,12 +423,20 @@
     ghLink.innerHTML = '<i class="fa-brands fa-github"></i>';
     info.appendChild(ghLink);
 
-    card.appendChild(info);
+    if (!card.querySelector('.project-card-info')) {
+      card.insertBefore(info, card.firstChild);
+    }
 
-    const visual = document.createElement('div');
-    visual.className = 'project-card-visual';
-    visual.innerHTML = '<i class="fa-solid fa-code proj-icon"></i>';
-    card.appendChild(visual);
+    // Rebuild visual only if no image
+    if (!imgSrc) {
+      let visual = card.querySelector('.project-card-visual');
+      if (!visual) {
+        visual = document.createElement('div');
+        visual.className = 'project-card-visual';
+        card.appendChild(visual);
+      }
+      visual.innerHTML = '<i class="fa-solid fa-code proj-icon"></i>';
+    }
   }
 
   function formatDate(value) {
