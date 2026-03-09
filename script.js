@@ -225,6 +225,7 @@ document.addEventListener('DOMContentLoaded', function() {
     projectLinks.forEach(link => {
       if (link.dataset.placeholder === 'true') return;
       const repoPath = extractRepoPath(link.getAttribute('href'));
+      const displayName = link.textContent.trim();
       if (!repoPath) return;
 
       const card = createProjectCardSkeleton(repoPath);
@@ -238,7 +239,7 @@ document.addEventListener('DOMContentLoaded', function() {
           renderProjectCard(card, repoData, languages || {}, repoPath);
         })
         .catch(() => {
-          renderProjectError(card, repoPath);
+          renderProjectError(card, repoPath, displayName);
         });
     });
   }
@@ -345,19 +346,29 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  function renderProjectError(card, repoPath) {
+  function renderProjectError(card, repoPath, displayName) {
     card.classList.remove('project-card--loading');
     card.innerHTML = '';
-    const msg = document.createElement('p');
-    msg.className = 'project-error';
-    msg.textContent = `Unable to load ${repoPath}.`;
-    const fallbackLink = document.createElement('a');
-    fallbackLink.href = `https://github.com/${repoPath}`;
-    fallbackLink.target = '_blank';
-    fallbackLink.rel = 'noopener';
-    fallbackLink.textContent = 'Open on GitHub';
-    card.appendChild(msg);
-    card.appendChild(fallbackLink);
+
+    const header = document.createElement('div');
+    header.className = 'project-card-header';
+
+    const title = document.createElement('h3');
+    title.textContent = displayName || repoPath.split('/')[1];
+    header.appendChild(title);
+
+    const link = document.createElement('a');
+    link.href = `https://github.com/${repoPath}`;
+    link.target = '_blank';
+    link.rel = 'noopener';
+    link.textContent = 'View on GitHub';
+    header.appendChild(link);
+    card.appendChild(header);
+
+    const desc = document.createElement('p');
+    desc.className = 'project-desc';
+    desc.textContent = 'Click “View on GitHub” to explore this project.';
+    card.appendChild(desc);
   }
 
   function formatDate(value) {
