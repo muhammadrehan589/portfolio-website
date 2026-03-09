@@ -516,6 +516,21 @@ section {
   justify-content: center;
   overflow: hidden;
   position: relative;
+  transition: border-color 0.2s;
+}
+.project-card:hover .project-card-visual {
+  border-color: rgba(0,188,212,0.4);
+}
+.project-card-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 14px;
+  transition: transform 0.4s ease;
+}
+.project-card:hover .project-card-visual img {
+  transform: scale(1.04);
 }
 .project-card-visual .proj-icon {
   font-size: 4rem;

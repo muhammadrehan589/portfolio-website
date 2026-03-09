@@ -229,6 +229,7 @@
       if (!repoPath) return;
 
       const card = createProjectCardSkeleton(repoPath);
+      const imgSrc = link.dataset.image || null;
       link.replaceWith(card);
 
       Promise.all([
@@ -236,7 +237,7 @@
         fetchGitHubJson(`https://api.github.com/repos/${repoPath}/languages`, true)
       ])
         .then(([repoData, languages]) => {
-          renderProjectCard(card, repoData, languages || {}, repoPath);
+          renderProjectCard(card, repoData, languages || {}, repoPath, imgSrc);
         })
         .catch(() => {
           renderProjectError(card, repoPath, displayName);
@@ -288,7 +289,7 @@
     return card;
   }
 
-  function renderProjectCard(card, repoData, languages, repoPath) {
+  function renderProjectCard(card, repoData, languages, repoPath, imgSrc) {
     card.classList.remove('project-card--loading');
     card.innerHTML = '';
 
@@ -355,7 +356,18 @@
     // Visual side
     const visual = document.createElement('div');
     visual.className = 'project-card-visual';
-    visual.innerHTML = '<i class="fa-solid fa-code proj-icon"></i>';
+    if (imgSrc) {
+      const img = document.createElement('img');
+      img.src = imgSrc;
+      img.alt = (repoData.name || repoPath.split('/')[1]) + ' screenshot';
+      img.onerror = function() {
+        this.remove();
+        visual.innerHTML = '<i class="fa-solid fa-code proj-icon"></i>';
+      };
+      visual.appendChild(img);
+    } else {
+      visual.innerHTML = '<i class="fa-solid fa-code proj-icon"></i>';
+    }
     card.appendChild(visual);
   }
 
