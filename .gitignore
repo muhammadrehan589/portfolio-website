@@ -366,3 +366,7 @@ FodyWeavers.xsd
 assets/old resumes/
 assets/pics/
 assets/resumes/
+
+# Ignore project documentation rules
+SOLID_RULES.md
+constraints.md
